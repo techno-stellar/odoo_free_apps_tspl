@@ -1,0 +1,7 @@
+    <odoo>
+    <menuitem id="menu_dynamic_user_notification_config" 
+              name="Notification Config" 
+              parent="mail.mail_menu_technical" 
+              action="dynamic_user_notification_tspl.action_dynamic_user_notification_config" 
+              sequence="100"/>
+</odoo>

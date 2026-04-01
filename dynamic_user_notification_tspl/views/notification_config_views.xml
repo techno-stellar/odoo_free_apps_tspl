@@ -1,0 +1,98 @@
+<odoo>
+    <record id="view_dynamic_user_notification_config_tree" model="ir.ui.view">
+        <field name="name">dynamic.user.notification.config.list</field>
+        <field name="model">dynamic.user.notification.config</field>
+        <field name="arch" type="xml">
+            <list string="Notification Configuration">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="is_on_create"/>
+                <field name="is_on_state_change"/>
+                <field name="is_on_unlink"/>
+                <field name="notification_type" widget="badge"
+                       decoration-success="notification_type == 'success'"
+                       decoration-danger="notification_type == 'danger'"
+                       decoration-warning="notification_type == 'warning'"
+                       decoration-info="notification_type == 'info'"/>
+                <field name="state"/>
+                <field name="active" widget="boolean_toggle" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_dynamic_user_notification_config_form" model="ir.ui.view">
+        <field name="name">dynamic.user.notification.config.form</field>
+        <field name="model">dynamic.user.notification.config</field>
+        <field name="arch" type="xml">
+            <form string="Notification Configuration">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" data-hotkey="q"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_draft" string="Reset to Draft" type="object" data-hotkey="q"
+                            invisible="state != 'confirmed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="E.g. Sales Order Create Notification"/>
+                        </h1>
+                    </div>
+                    <group name="trigger_settings">
+                        <group name="model_settings" string="Model Settings">
+                            <field name="model_id" options="{'no_create': True}"/>
+                            <field name="active" invisible="1"/>
+                            <field name="notify_user_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group name="notification_triggers" string="Notification Triggers">
+                            <field name="notification_type"/>
+                            <field name="is_sticky"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="create" string="On Create">
+                            <group>
+                                <group>
+                                    <field name="is_on_create"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="write" string="On Update">
+                            <group>
+                                <group>
+                                    <field name="is_on_state_change"/>
+                                </group>
+                                <group invisible="not is_on_state_change">
+                                    <field name="state_field_id" options="{'no_create': True}"
+                                           required="is_on_state_change"/>
+                                    <field name="state_selection_ids" widget="many2many_tags"
+                                           options="{'no_create': True}" required="is_on_state_change"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="unlink" string="On Delete">
+                            <group>
+                                <group>
+                                    <field name="is_on_unlink"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dynamic_user_notification_config" model="ir.actions.act_window">
+        <field name="name">Notification Config</field>
+        <field name="res_model">dynamic.user.notification.config</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Notification Configuration!
+            </p>
+        </field>
+    </record>
+</odoo>
