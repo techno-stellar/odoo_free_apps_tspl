@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dynamic_user_notification_config_form_logs_inherit" model="ir.ui.view">
+        <field name="name">dynamic.user.notification.config.form.logs.inherit</field>
+        <field name="model">dynamic.user.notification.config</field>
+        <field name="inherit_id" ref="dynamic_user_notification_tspl.view_dynamic_user_notification_config_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="inside">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_open_notification_logs"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-list"
+                            invisible="notification_log_count == 0"
+                            string="Logs">
+                        <field name="notification_log_count" widget="statinfo" string="Logs"/>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//page[@name='create']//field[@name='is_on_create']" position="after">
+                <field name="create_log_on_create" invisible="not is_on_create"/>
+            </xpath>
+            <xpath expr="//page[@name='write']//field[@name='is_on_state_change']" position="after">
+                <field name="create_log_on_write" invisible="not is_on_state_change"/>
+            </xpath>
+            <xpath expr="//page[@name='unlink']//field[@name='is_on_unlink']" position="after">
+                <field name="create_log_on_unlink" invisible="not is_on_unlink"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

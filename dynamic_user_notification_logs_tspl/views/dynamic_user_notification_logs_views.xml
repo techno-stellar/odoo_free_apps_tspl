@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dynamic_user_notification_logs_tree" model="ir.ui.view">
+        <field name="name">dynamic.user.notification.logs.tree</field>
+        <field name="model">dynamic.user.notification.logs</field>
+        <field name="arch" type="xml">
+            <tree string="Notification Logs" default_order="id desc">
+                <field name="action_type" optional="show"/>
+                <field name="config_id"/>
+                <field name="record_id"/>
+                <field name="model_name"/>
+                <field name="res_id" optional="hide"/>
+                <field name="user_id" optional="hide"/>
+                <field name="notified_user_id" optional="show"/>
+                <field name="message" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_dynamic_user_notification_logs_form" model="ir.ui.view">
+        <field name="name">dynamic.user.notification.logs.form</field>
+        <field name="model">dynamic.user.notification.logs</field>
+        <field name="arch" type="xml">
+            <form string="Notification Log">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="action_type"/>
+                            <field name="config_id"/>
+                            <field name="user_id"/>
+                            <field name="notified_user_id"/>
+                        </group>
+                        <group>
+                            <field name="model_name"/>
+                            <field name="res_id"/>
+                            <field name="record_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="message"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_dynamic_user_notification_logs_search" model="ir.ui.view">
+        <field name="name">dynamic.user.notification.logs.search</field>
+        <field name="model">dynamic.user.notification.logs</field>
+        <field name="arch" type="xml">
+            <search string="Notification Logs">
+                <field name="message"/>
+                <field name="config_id"/>
+                <field name="user_id"/>
+                <field name="notified_user_id"/>
+                <field name="model_name"/>
+                <field name="record_id"/>
+                <filter name="filter_create" string="Create" domain="[('action_type', '=', 'create')]"/>
+                <filter name="filter_write" string="Write" domain="[('action_type', '=', 'write')]"/>
+                <filter name="filter_unlink" string="Delete" domain="[('action_type', '=', 'unlink')]"/>
+                <group>
+                    <filter name="group_by_action_type" string="Action Type" context="{'group_by': 'action_type'}"/>
+                    <filter name="group_by_config" string="Configuration" context="{'group_by': 'config_id'}"/>
+                    <filter name="group_by_user" string="User" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_by_notified_user" string="Notified User" context="{'group_by': 'notified_user_id'}"/>
+                    <filter name="group_by_model" string="Model" context="{'group_by': 'model_name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_dynamic_user_notification_logs" model="ir.actions.act_window">
+        <field name="name">Notification Logs</field>
+        <field name="res_model">dynamic.user.notification.logs</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'create': False, 'edit': False}</field>
+        <field name="search_view_id" ref="view_dynamic_user_notification_logs_search"/>
+    </record>
+</odoo>
